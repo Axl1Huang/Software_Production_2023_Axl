@@ -11,9 +11,9 @@ class App(tk.Tk):
   # APP SETTINGS #
   ################
 
-  name = "Awesome App"                      # Name of the app
-  width = 800                               # Width of the app window
-  height = 800                              # Height of the app window
+  name = "Hosue_prediction_by_HTOFS.Oy"                      # Name of the app
+  width = 1024                             # Width of the app window
+  height = 768                             # Height of the app window
   pages = [ Page1, Page2, Page3 ]           # Pages of the app
   initial_page = 1                          # Initial page to show, from 1 to upwards
 

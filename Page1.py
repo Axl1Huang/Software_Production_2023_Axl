@@ -53,7 +53,7 @@ class Page1(tk.Frame):
 
     # Label for description
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkLabel
-    self.labelTitleDescription = ctk.CTkLabel(master=self, font = NORMALFONT, text="What's up?")
+    self.labelTitleDescription = ctk.CTkLabel(master=self, font = LARGEFONT, text="High Tech Old Factory Street")
     self.labelTitleDescription.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
 
     # Label for selected file
@@ -68,5 +68,5 @@ class Page1(tk.Frame):
 
     # Button to continue to the next page, calls the proceed function inside this class
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkButton
-    self.buttonContinue = ctk.CTkButton(master=self, text="Continue", command= lambda : self.proceed())
-    self.buttonContinue.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    self.buttonContinue = ctk.CTkButton(master=self, text="Start", command= lambda : self.proceed())
+    self.buttonContinue.place(relx=0.2, rely=0.8, anchor=tk.SW)
