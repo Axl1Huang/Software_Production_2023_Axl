@@ -12,7 +12,7 @@ class Page1(tk.Frame):
   labelTitleDescription : ctk.CTkLabel = None
   labelSelectedFile : ctk.CTkLabel = None
   buttonSelectFile : ctk.CTkButton = None
-  buttonContinue : ctk.CTkButton = None
+  buttonStart : ctk.CTkButton = None
 
   ###################
   # STATE VARIABLES #
@@ -68,5 +68,5 @@ class Page1(tk.Frame):
 
     # Button to continue to the next page, calls the proceed function inside this class
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkButton
-    self.buttonContinue = ctk.CTkButton(master=self, text="Start", command= lambda : self.proceed())
-    self.buttonContinue.place(relx=0.2, rely=0.8, anchor=tk.SW)
+    self.buttonStart = ctk.CTkButton(master=self, text="Start", command= lambda : self.proceed(),fg_color="white",text_color="black")
+    self.buttonStart.place(relx=0.2, rely=0.8, anchor=tk.SW)
