@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-
+from PIL import Image
 class Page1(tk.Frame):
   
   ##############
@@ -13,9 +13,8 @@ class Page1(tk.Frame):
   labelSelectedFile : ctk.CTkLabel = None
   buttonSelectFile : ctk.CTkButton = None
   buttonStart : ctk.CTkButton = None
-  labelDragBox : ctk.CTkLabel = None
-  Dragbox:
-
+  Image:ctk.CTkImage = None
+  # labelDragBox : ctk.CTkLabel = None
 
   ###################
   # STATE VARIABLES #
@@ -62,8 +61,8 @@ class Page1(tk.Frame):
 
     # Label for selected file
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkLabel
-    self.labelDragBox = ctk.CTkLabel(master=self, text = "Drop Csv File here", font = NORMALFONT)
-    self.labelSelectedFile.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+    self.selectedFilePath = ctk.CTkLabel(master=self, text = "Drop Csv File here", font = NORMALFONT)
+    self.selectedFilePath.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
     # Button to select a file, calls the selectFile function inside this class
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkButton

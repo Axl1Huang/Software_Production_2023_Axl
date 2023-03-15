@@ -1,26 +1,32 @@
 import tkinter as tk
-import customtkinter as ctk
-from tkinter import filedialog
+import tkinter.ttk as ttk
+import pandas as pd
 
 root = tk.Tk()
+root.geometry('300x300')
 
-# create a label widget to display the uploaded file name
-file_label = tk.Label(root, text="Drop file here", font=("Helvetica", 16), pady=50)
-file_label.pack()
+label = ttk.Label(root, text='Drag and drop CSV file here')
+label.pack(pady=50)
 
-# create a custom event handler for the drag and drop event
-def handle_drop(event):
-    # get the filename(s) of the dropped file(s)
-    filenames = ctk.get_dropfiles(event)
-    filename = filenames[0]
-    print('Dropped file:', filename)
-    
-    # do something with the file, e.g. display its contents
-    with open(filename, 'r') as file:
-        contents = file.read()
-    print('File contents:', contents)
+def on_drag_enter(event):
+    event.widget.configure(bg='red')
 
-# bind the event handler to the label widget
-file_label.bind('<Drop>', handle_drop)
+def on_drag_leave(event):
+    event.widget.configure(bg='SystemButtonFace')
+
+def on_drag_motion(event):
+    pass
+
+def on_button_release(event):
+    filename = event.widget.selection_get().strip()
+    if filename.endswith('.csv'):
+        data = pd.read_csv(filename)
+        print(data.head())
+    event.widget.configure(bg='green')
+
+label.bind('<Enter>', on_drag_enter)
+label.bind('<Leave>', on_drag_leave)
+label.bind('<Motion>', on_drag_motion)
+label.bind('<ButtonRelease-1>', on_button_release)
 
 root.mainloop()

@@ -1,10 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-from Page1 import Page1
+
 from Page2 import Page2
 from Page3 import Page3
-
+from first_page import first
+from second_page import second
+from third_page import third
+from Forth_page import forth
+ 
 class App(tk.Tk):
 
   ################
@@ -14,7 +18,7 @@ class App(tk.Tk):
   name = "Hosue_prediction_by_HTOFS.Oy"                      # Name of the app
   width = 1024                             # Width of the app window
   height = 768                             # Height of the app window
-  pages = [ Page1, Page2, Page3 ]           # Pages of the app
+  pages = [ first,second,third,forth]           # Pages of the app
   initial_page = 1                          # Initial page to show, from 1 to upwards
 
   # Custom styles for the app
@@ -60,7 +64,7 @@ class App(tk.Tk):
 
     # Theme settings for the app
     # https://github.com/TomSchimansky/CustomTkinter/wiki/Themes
-    ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
+    ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
     ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
     # Create all the pages
