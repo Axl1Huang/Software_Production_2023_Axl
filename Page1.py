@@ -13,6 +13,9 @@ class Page1(tk.Frame):
   labelSelectedFile : ctk.CTkLabel = None
   buttonSelectFile : ctk.CTkButton = None
   buttonStart : ctk.CTkButton = None
+  labelDragBox : ctk.CTkLabel = None
+  Dragbox:
+
 
   ###################
   # STATE VARIABLES #
@@ -35,6 +38,7 @@ class Page1(tk.Frame):
 
     # Example of how to switch pages
     self.app.show_page(2)
+  # def handleDrop(self):
 
   #######################
   # INITIALIZE THE PAGE #
@@ -58,7 +62,7 @@ class Page1(tk.Frame):
 
     # Label for selected file
     # https://github.com/TomSchimansky/CustomTkinter/wiki/CTkLabel
-    self.labelSelectedFile = ctk.CTkLabel(master=self, text = "", font = NORMALFONT)
+    self.labelDragBox = ctk.CTkLabel(master=self, text = "Drop Csv File here", font = NORMALFONT)
     self.labelSelectedFile.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
     # Button to select a file, calls the selectFile function inside this class
