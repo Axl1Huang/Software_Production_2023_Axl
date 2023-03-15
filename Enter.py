@@ -14,11 +14,12 @@ class third(tk.Frame):
   label_Enter_information:ctk.CTkLabel = None
   label_Predicted_Price_Show:ctk.CTkLabel = None
   ButtonBack : ctk.CTkButton = None
+  ButtonPredcition : ctk.CTkButton = None
   #############
   # FUNCTIONS #
   #############
   def proceed(self):
-    self.app.show_page(2)
+    self.app.show_page(4)
 
   def back(self):
     self.app.show_page(2)
@@ -44,3 +45,6 @@ class third(tk.Frame):
 
     self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text = "Predicted Price Show", font = NORMALFONT)
     self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
+
+    self.ButtonPredcition = ctk.CTkButton(master=self, text="Star Prediction", command= lambda : self.proceed(),fg_color="green",text_color="black")
+    self.ButtonPredcition.place(relx=0.5, rely=0.8, anchor=tk.CENTER)

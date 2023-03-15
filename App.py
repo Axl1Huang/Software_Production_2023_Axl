@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 
-from Page2 import Page2
-from Page3 import Page3
-from first_page import first
-from second_page import second
-from third_page import third
-from Forth_page import forth
+# from Page2 import Page2
+# from Page3 import Page3
+from Start_page import first
+from Upload import second
+from Enter import third
+from Result import forth
  
 class App(tk.Tk):
 

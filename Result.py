@@ -14,6 +14,7 @@ class forth(tk.Frame):
   label_Enter_information:ctk.CTkLabel = None
   label_Predicted_Price_Show:ctk.CTkLabel = None
   ButtonBack : ctk.CTkButton = None
+  ButtonSave : ctk.CTkButton = None
   #############
   # FUNCTIONS #
   #############
@@ -29,7 +30,7 @@ class forth(tk.Frame):
     LARGEFONT = app.styles.get("LARGEFONT")
 
 
-    self.labelTitle = ctk.CTkLabel(master=self, text = "Enter Information", font = LARGEFONT)
+    self.labelTitle = ctk.CTkLabel(master=self, text = "Predicted Price Show", font = LARGEFONT)
     self.labelTitle.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
     self.label_upload_Area = ctk.CTkLabel(master=self, text = "Upload Area", font = NORMALFONT)
@@ -43,3 +44,7 @@ class forth(tk.Frame):
 
     self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text = "Predicted Price Show", font = NORMALFONT)
     self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
+    
+    self.ButtonSave = ctk.CTkButton(master=self, text="Save Model", command= lambda : self.back(),fg_color="yellow",text_color="black")
+    self.ButtonSave.place(relx=0.6, rely=0.8, anchor=tk.CENTER)
+
