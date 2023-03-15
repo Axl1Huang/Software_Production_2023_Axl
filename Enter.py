@@ -15,6 +15,11 @@ class third(tk.Frame):
   label_Predicted_Price_Show:ctk.CTkLabel = None
   ButtonBack : ctk.CTkButton = None
   ButtonPredcition : ctk.CTkButton = None
+  ZipEnter : ctk.CTkEntry = None
+  HouseSizeEnter : ctk.CTkEntry = None
+  AcreLotEnter : ctk.CTkEntry = None
+  NumOfBedEnter : ctk.CTkEntry = None
+  NumOfBathEnter : ctk.CTkEntry = None
   #############
   # FUNCTIONS #
   #############
@@ -48,3 +53,18 @@ class third(tk.Frame):
 
     self.ButtonPredcition = ctk.CTkButton(master=self, text="Star Prediction", command= lambda : self.proceed(),fg_color="green",text_color="black")
     self.ButtonPredcition.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+    ### Setting Enter Box###
+    self.ZipEnter = ctk.CTkEntry(master=self,placeholder_text="Zip_code",width=120,height=25,border_width=2,border_color="yellow",corner_radius=10)
+    self.ZipEnter.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+
+    self.HouseSizeEnter = ctk.CTkEntry(master=self,placeholder_text="House_Size",width=120,height=25,border_width=2,border_color="yellow",corner_radius=10)
+    self.HouseSizeEnter.place(relx=0.65, rely=0.3, anchor=tk.CENTER)
+
+    self.AcreLotEnter = ctk.CTkEntry(master=self,placeholder_text="Acre_Lot",width=120,height=25,border_width=2,border_color="yellow",corner_radius=10)
+    self.AcreLotEnter.place(relx=0.8, rely=0.3, anchor=tk.CENTER)
+
+    self.NumOfBedEnter = ctk.CTkEntry(master=self,placeholder_text="Bed_room_number",width=120,height=25,border_width=2,border_color="yellow",corner_radius=10)
+    self.NumOfBedEnter.place(relx=0.75, rely=0.5, anchor=tk.CENTER)
+
+    self.NumOfBathEnter = ctk.CTkEntry(master=self,placeholder_text="Bath_room_number",width=120,height=25,border_width=2,border_color="yellow",corner_radius=10)
+    self.NumOfBathEnter.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
