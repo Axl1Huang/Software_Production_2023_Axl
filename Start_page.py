@@ -43,6 +43,6 @@ class first(tk.Frame):
     self.labelSlogan = ctk.CTkLabel(master=self, text = "High Quality Forecast", font = NORMALFONT)
     self.labelSlogan.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
 
-    self.Image = ctk.CTkImage(light_image=Image.open("/mnt/c/Users/win10/Desktop/Finland/SP/Software_Production_2023_Axl/src/img/First_page_image.png"),size=(400,400))
+    self.Image = ctk.CTkImage(light_image=Image.open("src\img\First_page_image.png"),size=(400,400))
     self.labelImage = ctk.CTkLabel(master=self,text="",image=self.Image)
     self.labelImage.place(relx=0.8,rely=0.8,anchor = tk.SE)

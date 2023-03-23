@@ -1,0 +1,37 @@
+import os
+import tkinter as tk
+from tkinter import filedialog
+
+class FileBrowserWidget(tk.Frame):
+    def __init__(self, parent, path, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+
+        self.path = path
+
+        # Create a scrollbar
+        self.scrollbar = tk.Scrollbar(self)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Create a listbox
+        self.listbox = tk.Listbox(self, yscrollcommand=self.scrollbar.set)
+        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH)
+
+        # Configure the scrollbar to scroll the listbox
+        self.scrollbar.config(command=self.listbox.yview)
+
+        self.populate_listbox()
+
+    def populate_listbox(self):
+        # Clear the listbox
+        self.listbox.delete(0, tk.END)
+
+        # Add files from the specified path to the listbox
+        for file in os.listdir(self.path):
+            self.listbox.insert(tk.END, file)
+
+    def get_selected_file(self):
+        selected_index = self.listbox.curselection()
+        if selected_index:
+            return self.listbox.get(selected_index[0])
+        else:
+            return None

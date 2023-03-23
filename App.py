@@ -36,7 +36,9 @@ class App(tk.Tk):
   #############
   # FUNCTIONS #
   #############
-
+  def csv_file_uploaded(self, file_path):
+    self.selectedFilePath = file_path
+    print(f"CSV file uploaded: {file_path}")
   # Show a certain page, from 1 to upwards
   def show_page(self, page_number : int):
     self.frames.get(page_number).tkraise()

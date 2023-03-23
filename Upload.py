@@ -3,6 +3,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image
 from DDbox import DragAndDropWidget
+
 from tkinterdnd2 import DND_FILES, TkinterDnD
 class second(tk.Frame):
   
@@ -16,6 +17,7 @@ class second(tk.Frame):
   label_Predicted_Price_Show:ctk.CTkLabel = None
   ButtonBack : ctk.CTkButton = None
   ButtonUpload : ctk.CTkButton = None
+  saved_path = "src\saved_model"
   #############
   # FUNCTIONS #
   #############
@@ -52,3 +54,7 @@ class second(tk.Frame):
     ### Define Drag and Drop box
     self.drag_and_drop_widget = DragAndDropWidget(self)
     self.drag_and_drop_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+    self.file_browser = FileBrowserWidget(self, self.path_to_files)
+    self.file_browser.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    
