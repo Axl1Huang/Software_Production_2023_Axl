@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image
+import pandas as pd
 
 class second(tk.Frame):
   
@@ -15,6 +16,8 @@ class second(tk.Frame):
   label_Predicted_Price_Show:ctk.CTkLabel = None
   ButtonBack : ctk.CTkButton = None
   ButtonUpload : ctk.CTkButton = None
+  Drag_frame : ctk.CTkFrame = None
+  Drag_Label : ctk.CTkLabel = None
   #############
   # FUNCTIONS #
   #############
@@ -23,6 +26,11 @@ class second(tk.Frame):
 
   def back(self):
     self.app.show_page(1)
+  def selectFile(self):
+    # Example of how to open a file dialog and get the selected file path
+    self.app.selectedFilePath = ctk.filedialog.askopenfile(title="Open File", filetypes=(("Open a .csv file", "*.csv"), ("All files", "*.*"))).name
+    # Example of how to update text for a label
+    self.labelSelectedFile.configure(text = f"We have selected a file: {self.app.selectedFilePath}")
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)
     self.app = app
@@ -48,3 +56,6 @@ class second(tk.Frame):
 
     self.ButtonUpload = ctk.CTkButton(master=self, text="Upload", command= lambda : self.proceed(),fg_color="green",text_color="black")
     self.ButtonUpload.place(relx=0.7, rely=0.8, anchor=tk.CENTER)
+    ### Define Drag and Drop box
+    self.buttonSelectFile = ctk.CTkButton(master=self, text="Select File", command = lambda : self.selectFile())
+    self.buttonSelectFile.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
