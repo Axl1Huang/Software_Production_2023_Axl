@@ -3,7 +3,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image
 from DDbox import DragAndDropWidget
-
+from model import FileBrowserWidget
 from tkinterdnd2 import DND_FILES, TkinterDnD
 class second(tk.Frame):
   
@@ -18,6 +18,7 @@ class second(tk.Frame):
   ButtonBack : ctk.CTkButton = None
   ButtonUpload : ctk.CTkButton = None
   saved_path = "src\saved_model"
+  label_Saved : ctk.CTkButton = None
   #############
   # FUNCTIONS #
   #############
@@ -50,11 +51,14 @@ class second(tk.Frame):
     self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
 
     self.ButtonUpload = ctk.CTkButton(master=self, text="Upload", command= lambda : self.proceed(),fg_color="green",text_color="black")
-    self.ButtonUpload.place(relx=0.7, rely=0.8, anchor=tk.CENTER)
+    self.ButtonUpload.place(relx=0.8, rely=0.8, anchor=tk.CENTER)
     ### Define Drag and Drop box
     self.drag_and_drop_widget = DragAndDropWidget(self)
-    self.drag_and_drop_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    self.drag_and_drop_widget.place(relx=0.8, rely=0.5, anchor=tk.CENTER)
 
-    self.file_browser = FileBrowserWidget(self, self.path_to_files)
+    self.label_Saved = ctk.CTkLabel(master=self, text = "Saved Model", font = NORMALFONT)
+    self.label_Saved.place(relx = 0.5,rely = 0.3,anchor=tk.CENTER)
+
+    self.file_browser = FileBrowserWidget(self, self.saved_path)
     self.file_browser.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
     
