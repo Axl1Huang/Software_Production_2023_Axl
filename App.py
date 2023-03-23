@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-
-# from Page2 import Page2
-# from Page3 import Page3
+from tkinterdnd2 import TkinterDnD 
 from Start_page import first
 from Upload import second
 from Enter import third
@@ -51,10 +49,11 @@ class App(tk.Tk):
   # INITIALIZE THE APP #
   ######################
   def __init__(self, *args, **kwargs):
-    tk.Tk.__init__(self, *args, **kwargs)
+    TkinterDnD.Tk.__init__(self, *args, **kwargs)
     
     # creating a container
     container = tk.Frame(self) 
+    # container.config(bg="white")
     container.pack(side = "top", fill = "both", expand = True)
     container.grid_rowconfigure(0, weight = 1)
     container.grid_columnconfigure(0, weight = 1)

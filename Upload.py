@@ -51,4 +51,4 @@ class second(tk.Frame):
     self.ButtonUpload.place(relx=0.7, rely=0.8, anchor=tk.CENTER)
     ### Define Drag and Drop box
     self.drag_and_drop_widget = DragAndDropWidget(self)
-    self.drag_and_drop_widget.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+    self.drag_and_drop_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
