@@ -29,8 +29,7 @@ class second(tk.Frame):
   def selectFile(self):
     # Example of how to open a file dialog and get the selected file path
     self.app.selectedFilePath = ctk.filedialog.askopenfile(title="Open File", filetypes=(("Open a .csv file", "*.csv"), ("All files", "*.*"))).name
-    # Example of how to update text for a label
-    self.labelSelectedFile.configure(text = f"We have selected a file: {self.app.selectedFilePath}")
+    print(self.app.selectedFilePath)
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)
     self.app = app
