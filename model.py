@@ -9,19 +9,13 @@ class FileBrowserWidget(tk.Frame):
 
         self.path = path
 
-        # Create and configure a style for the treeview
-        style = ttk.Style(self)
-        style.layout("Custom.Treeview", [('Treeview.treearea', {'sticky': 'nswe'})])
-        style.configure("Custom.Treeview", background="white", borderwidth=2, relief=tk.SUNKEN)
-        style.configure("Custom.Treeview.Heading", background="white", borderwidth=2, relief=tk.RAISED)
-
-        # Create a treeview with the custom style
-        self.treeview = ttk.Treeview(self, columns=("File", "Delete"), show="headings", selectmode="none", style="Custom.Treeview")
+        # Create a treeview with 3 columns
+        self.treeview = ttk.Treeview(self, columns=("File", "Delete"), show="headings", selectmode="none")
         self.treeview.heading("File", text="File")
         self.treeview.column("File", width=150, anchor=tk.W)
         self.treeview.heading("Delete", text="Delete")
         self.treeview.column("Delete", width=150, anchor=tk.CENTER)
-
+        
         self.treeview.tag_configure("file", background="lightgray")
 
         self.treeview.pack(fill=tk.BOTH, expand=True)
@@ -41,13 +35,19 @@ class FileBrowserWidget(tk.Frame):
     def on_treeview_click(self, event):
         item_id = self.treeview.identify_row(event.y)
         column = self.treeview.identify_column(event.x)
-        if item_id and column == "#2":
-            # Delete button clicked
+
+        if item_id:
             file = self.treeview.item(item_id, "values")[0]
-            result = messagebox.askyesno("Delete File", f"Are you sure you want to delete {file}?")
-            if result:
-                self.delete_file(file)
-                self.treeview.delete(item_id)
+
+            if column == "#1":
+                # File name clicked
+                print(f"File clicked: {file}")
+            elif column == "#2":
+                # Delete button clicked
+                result = messagebox.askyesno("Delete File", f"Are you sure you want to delete {file}?")
+                if result:
+                    self.delete_file(file)
+                    self.treeview.delete(item_id)
 
     def delete_file(self, file):
         file_path = os.path.join(self.path, file)
