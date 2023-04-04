@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-from tkinterdnd2 import TkinterDnD 
+from tkinterdnd2 import TkinterDnD
 from Start_page import first
 from Upload import second
 from Enter import third
 from Result import forth
- 
+
 class App(tk.Tk):
 
   ################
@@ -36,9 +36,16 @@ class App(tk.Tk):
   #############
   # FUNCTIONS #
   #############
-  def csv_file_uploaded(self, file_path):
-    self.selectedFilePath = file_path
-    print(f"CSV file uploaded: {file_path}")
+  def csv_file_check_and_call_thrid_page(self, file_path, selected_columns):
+      self.selectedFilePath = file_path
+      self.selectedColumns = selected_columns
+      print(f"CSV file uploaded: {file_path}")
+      third_page = self.get_page(3)
+      third_page.selected_columns = selected_columns
+      third_page.create_entry_boxes()
+
+
+
   # Show a certain page, from 1 to upwards
   def show_page(self, page_number : int):
     self.frames.get(page_number).tkraise()
@@ -72,10 +79,9 @@ class App(tk.Tk):
     self.frames = {}
     i : int = 1
     for F in self.pages:
-      frame = F(container, self)
-      self.frames[i] = frame
-      frame.grid(row = 0, column = 0, sticky ="nsew")
-      i = i + 1
-    
+        frame = F(container, self)
+        self.frames[i] = frame
+        frame.grid(row = 0, column = 0, sticky ="nsew")
+        i = i + 1
     # Initial page to show
     self.show_page(self.initial_page)
