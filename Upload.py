@@ -50,7 +50,7 @@ class second(tk.Frame):
     self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text = "Predicted Price Show", font = NORMALFONT)
     self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
 
-    self.ButtonUpload = ctk.CTkButton(master=self, text="Upload", command= lambda : self.proceed(),fg_color="green",text_color="black")
+    self.ButtonUpload = ctk.CTkButton(master=self, text="Confirm", command= lambda : self.proceed(),fg_color="green",text_color="black")
     self.ButtonUpload.place(relx=0.8, rely=0.8, anchor=tk.CENTER)
     ### Define Drag and Drop box
     self.drag_and_drop_widget = DragAndDropWidget(self)
