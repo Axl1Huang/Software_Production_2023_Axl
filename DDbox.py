@@ -44,7 +44,6 @@ class DragAndDropWidget(tk.Frame):
                 selected_columns = column_selection_dialog.result
                 if selected_columns:
                     print(f"Selected columns: {selected_columns}")
-
                 else:
                     print("No columns selected")
             else:
@@ -75,14 +74,17 @@ class ColumnSelectionDialog(simpledialog.Dialog):
         selected_indices = self.listbox.curselection()
         selected_columns = [self.columns[i] for i in selected_indices]
         
-        if len(selected_indices) > 0:
+        if len(selected_indices) >= 1:
             if "price" not in selected_columns:
                 messagebox.showwarning("Price column missing", "Please ensure you select the 'Price' column.")
+                return False
+            elif len(selected_indices) == 1:
+                messagebox.showwarning("Training column missing", "Please ensure you select the two column.(price included)")
                 return False
             else:
                 return True
         else:
-            messagebox.showwarning("No Selection", "Please select at least two column from the list.(price included)")
+            messagebox.showwarning("No Selection", "Please select at least two column from the training.(price included)")
             return False
 
 

@@ -40,9 +40,7 @@ class App(tk.Tk):
       self.selectedFilePath = file_path
       self.selectedColumns = selected_columns
       print(f"CSV file uploaded: {file_path}")
-      third_page = self.get_page(3)
-      third_page.selected_columns = selected_columns
-      third_page.create_entry_boxes()
+      print(selected_columns)
 
 
 

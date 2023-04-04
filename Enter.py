@@ -31,7 +31,6 @@ class third(tk.Frame):
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)
     self.app = app
-    self.selected_columns = []
     NORMALFONT = app.styles.get("NORMALFONT")
     LARGEFONT = app.styles.get("LARGEFONT")
 
