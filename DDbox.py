@@ -6,15 +6,15 @@ import os
 from tkinterdnd2 import DND_FILES, TkinterDnD
 import tkinter.messagebox as messagebox
 import pandas as pd
+from Enter import third
 
 class DragAndDropWidget(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent,app,*args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.configure(bg="blue", width=300, height=300)
-
         self.drop_text = tk.Label(self, text="Drop CSV file here", bg="blue", fg="white")
         self.drop_text.place(x=100, y=140)
-
+        self.app=app
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self.on_drop)
 
@@ -44,6 +44,7 @@ class DragAndDropWidget(tk.Frame):
                 selected_columns = column_selection_dialog.result
                 if selected_columns:
                     print(f"Selected columns: {selected_columns}")
+                    self.send_selected_columns_to_third_page(selected_columns)
                 else:
                     print("No columns selected")
             else:
@@ -52,7 +53,10 @@ class DragAndDropWidget(tk.Frame):
             messagebox.showerror("Invalid file", "The CSV file is empty.")
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred while reading the file: {e}")
-
+    def send_selected_columns_to_third_page(self, selected_columns):
+        enter_page = self.app.frames[3]  # Get the third page instance
+        enter_page.selected_columns = selected_columns  # Pass the selected_columns to the third page
+        enter_page.create_entry_boxes()  # Create the entry boxes
 
 
 class ColumnSelectionDialog(simpledialog.Dialog):
@@ -99,7 +103,7 @@ def main():
     root.title("Drag and Drop CSV")
     root.geometry("400x400")
 
-    drag_and_drop_widget = DragAndDropWidget(root)
+    drag_and_drop_widget = DragAndDropWidget(root,app=root)
     drag_and_drop_widget.place(x=50, y=50)
 
     root.mainloop()

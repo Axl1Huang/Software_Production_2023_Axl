@@ -36,11 +36,11 @@ class App(tk.Tk):
   #############
   # FUNCTIONS #
   #############
-  def csv_file_check_and_call_thrid_page(self, file_path, selected_columns):
-      self.selectedFilePath = file_path
-      self.selectedColumns = selected_columns
-      print(f"CSV file uploaded: {file_path}")
-      print(selected_columns)
+  # def csv_file_check_and_call_thrid_page(self, file_path, selected_columns):
+  #     self.selectedFilePath = file_path
+  #     self.selectedColumns = selected_columns
+  #     print(f"CSV file uploaded: {file_path}")
+  #     print(selected_columns)
 
 
 
@@ -76,10 +76,26 @@ class App(tk.Tk):
     # Create all the pages
     self.frames = {}
     i : int = 1
+    # for F in self.pages:
+    #     if F == second:
+    #       frame = F(container, self, app=self)
+    #     elif F == third:
+    #       frame = F(container, self, third.select_from_user)
+    #     else:
+    #       frame = F(container, self)
+    #     self.frames[i] = frame
+    #     frame.grid(row = 0, column = 0, sticky ="nsew")
+    #     i = i + 1
     for F in self.pages:
-        frame = F(container, self)
-        self.frames[i] = frame
-        frame.grid(row = 0, column = 0, sticky ="nsew")
-        i = i + 1
+      if F == second:
+          frame = F(container, app=self)
+      elif F == third:
+          frame = F(container, self, third.select_from_user)
+      else:
+          frame = F(container, self)
+      self.frames[i] = frame
+      frame.grid(row=0, column=0, sticky="nsew")
+      i = i + 1
+
     # Initial page to show
     self.show_page(self.initial_page)

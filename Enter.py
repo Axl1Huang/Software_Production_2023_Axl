@@ -20,6 +20,7 @@ class third(tk.Frame):
   AcreLotEnter : ctk.CTkEntry = None
   NumOfBedEnter : ctk.CTkEntry = None
   NumOfBathEnter : ctk.CTkEntry = None
+  select_from_user = None
   #############
   # FUNCTIONS #
   #############
@@ -28,9 +29,14 @@ class third(tk.Frame):
 
   def back(self):
     self.app.show_page(2)
-  def __init__(self, parent, app):
+  def get_list_from_user(self,list):
+     self.select_from_user = list
+     print(self.select_from_user)
+    #  print(self.selected_columns)
+  def __init__(self, parent, app,selected_columns=None):
     tk.Frame.__init__(self, parent)
     self.app = app
+    self.selected_columns=selected_columns or []
     NORMALFONT = app.styles.get("NORMALFONT")
     LARGEFONT = app.styles.get("LARGEFONT")
 
@@ -69,11 +75,11 @@ class third(tk.Frame):
     # self.NumOfBathEnter.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
   def create_entry_boxes(self):
       entry_box_specs = {
-          "Zip_code": (0.5, 0.3),
-          "House_Size": (0.65, 0.3),
-          "Acre_Lot": (0.8, 0.3),
-          "Bed_room_number": (0.75, 0.5),
-          "Bath_room_number": (0.6, 0.5),
+          "zip_code": (0.5, 0.3),
+          "house_size": (0.65, 0.3),
+          "acre_lot": (0.8, 0.3),
+          "bed": (0.75, 0.5),
+          "bath": (0.6, 0.5),
       }
 
       self.entry_boxes = {}

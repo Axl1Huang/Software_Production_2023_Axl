@@ -5,6 +5,7 @@ from PIL import Image
 from DDbox import DragAndDropWidget
 from model import FileBrowserWidget
 from tkinterdnd2 import DND_FILES, TkinterDnD
+from Enter import third
 class second(tk.Frame):
   
   ##############
@@ -24,13 +25,11 @@ class second(tk.Frame):
   #############
   def proceed(self):
     self.app.show_page(3)
-
   def back(self):
     self.app.show_page(1)
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)
     self.app = app
-
     NORMALFONT = app.styles.get("NORMALFONT")
     LARGEFONT = app.styles.get("LARGEFONT")
 
@@ -53,7 +52,7 @@ class second(tk.Frame):
     self.ButtonUpload = ctk.CTkButton(master=self, text="Confirm", command= lambda : self.proceed(),fg_color="green",text_color="black")
     self.ButtonUpload.place(relx=0.8, rely=0.8, anchor=tk.CENTER)
     ### Define Drag and Drop box
-    self.drag_and_drop_widget = DragAndDropWidget(self)
+    self.drag_and_drop_widget = DragAndDropWidget(self,app=app)
     self.drag_and_drop_widget.place(relx=0.8, rely=0.5, anchor=tk.CENTER)
 
     self.label_Saved = ctk.CTkLabel(master=self, text = "Saved Model", font = NORMALFONT)
