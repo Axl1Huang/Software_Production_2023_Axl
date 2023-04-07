@@ -14,6 +14,7 @@ class DragAndDropWidget(tk.Frame):
         self.configure(bg="blue", width=300, height=300)
         self.drop_text = tk.Label(self, text="Drop CSV file here", bg="blue", fg="white")
         self.drop_text.place(x=100, y=140)
+        self.path=None
         self.app=app
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self.on_drop)
