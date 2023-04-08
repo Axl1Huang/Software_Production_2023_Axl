@@ -26,7 +26,7 @@ class third(tk.Frame):
   #############
   def proceed(self):
     self.app.show_page(4)
-    self.entry_boxes = {}
+    # self.entry_boxes = {}
   def back(self):
     self.reset_page()
     self.app.show_page(2)

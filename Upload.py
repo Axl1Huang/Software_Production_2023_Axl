@@ -25,9 +25,10 @@ class second(tk.Frame):
   # FUNCTIONS #
   #############
   def proceed(self):
-    self.app.show_page(3)
-
-
+    if self.drag_and_drop_widget.path or self.file_browser.get_selected_file():
+        self.app.show_page(3)
+    else:
+        messagebox.showerror("Error", "Please select a file from the File Browser Widget.")
   def back(self):
     self.app.show_page(1)
   def __init__(self, parent, app):

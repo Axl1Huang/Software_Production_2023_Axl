@@ -35,6 +35,7 @@ class DragAndDropWidget(tk.Frame):
 
     def handle_file(self, file_path):
         print(f"Handling file: {file_path}")
+        self.path = file_path
         # Perform actions with the CSV file
         try:
             df = pd.read_csv(file_path, nrows=0)  # Read only the header row
@@ -47,7 +48,7 @@ class DragAndDropWidget(tk.Frame):
                     print(f"Selected columns: {selected_columns}")
                     self.send_selected_columns_to_third_page(selected_columns)
                 else:
-                    print("No columns selected")
+                    messagebox.showerror("Nothing selected", "you have to select content to continue,otherwise there is no entry box in the next page")
             else:
                 messagebox.showerror("Invalid file", "The CSV file is empty or has no header.")
         except pd.errors.EmptyDataError:
