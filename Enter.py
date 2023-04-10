@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image
-
+from prediction import prediction
 class third(tk.Frame):
   
   ##############
@@ -25,6 +25,12 @@ class third(tk.Frame):
   # FUNCTIONS #
   #############
   def proceed(self):
+    input_values = self.get_input_values()
+    print(f"input_value:",input_values)
+    pred = prediction(input_values,self.select_from_user)
+    pred.get_test_and_train_data()
+    pred.traning()
+    # prediction()
     self.app.show_page(4)
     # self.entry_boxes = {}
   def back(self):
@@ -35,11 +41,17 @@ class third(tk.Frame):
     self.selected_columns = []
   def get_list_from_user(self,list):
      self.select_from_user = list
-     print(self.select_from_user)
+     print("check list: "+self.select_from_user)
   def remove_entry_boxes(self):
       for column, entry_box in self.entry_boxes.items():
         entry_box.destroy()
       self.entry_boxes.clear()
+  def get_input_values(self):
+      input_values = {}
+      for column, entry_box in self.entry_boxes.items():
+          input_values[column] = entry_box.get()
+      return input_values
+
   def __init__(self, parent, app,selected_columns=None):
     tk.Frame.__init__(self, parent)
     self.app = app
@@ -89,3 +101,4 @@ class third(tk.Frame):
               )
               entry_box.place(relx=x, rely=y, anchor=tk.CENTER)
               self.entry_boxes[column] = entry_box
+      third.select_from_user = self.selected_columns
