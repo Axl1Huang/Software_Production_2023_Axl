@@ -3,6 +3,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image
 from prediction import prediction
+import threading
 class third(tk.Frame):
   
   ##############
@@ -21,18 +22,49 @@ class third(tk.Frame):
   NumOfBedEnter : ctk.CTkEntry = None
   NumOfBathEnter : ctk.CTkEntry = None
   select_from_user = None
+  button_done: ctk.CTkButton = None
   #############
   # FUNCTIONS #
   #############
   def proceed(self):
     input_values = self.get_input_values()
-    print(f"input_value:",input_values)
-    pred = prediction(input_values,self.select_from_user)
+    print(f"input_value:", input_values)
+    def update_forth_page(accuracy, user_pred,user_column):
+        forth_instance = self.app.get_page(4)
+        forth_instance.model_acc = accuracy
+        forth_instance.user_result = user_pred
+        forth_instance.user_column = user_column
+        forth_instance.update_labels()
+     # Find the forth instance in app.pages
+    pred = prediction(input_values, self.select_from_user,self.app,update_forth_page)
     pred.get_test_and_train_data()
-    pred.traning()
-    # prediction()
-    self.app.show_page(4)
-    # self.entry_boxes = {}
+    self.alert_window = tk.Toplevel(self)
+    self.alert_window.title("Training in progress")
+    self.alert_label = ttk.Label(self.alert_window, text="Waiting for training to finish...")
+    self.alert_label.pack(padx=20, pady=20)
+
+    # Set the initial size of the alert window
+    self.alert_window.geometry("300x150")
+
+    # Center the alert window on the screen
+    self.alert_window.update_idletasks()
+    width = self.alert_window.winfo_width()
+    height = self.alert_window.winfo_height()
+    x = (self.alert_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (self.alert_window.winfo_screenheight() // 2) - (height // 2)
+    self.alert_window.geometry(f"{width}x{height}+{x}+{y}")
+
+    # Disable user interaction with the main window and restrict closing the alert window
+    self.alert_window.grab_set()
+    self.alert_window.protocol("WM_DELETE_WINDOW", lambda: None)
+    self.alert_window.transient(self.app)
+
+    # Run training in a separate thread
+    training_thread = threading.Thread(target=pred.traning, daemon=True)
+    training_thread.start()
+
+    # Check training status periodically
+    self.check_training_status(pred)
   def back(self):
     self.reset_page()
     self.app.show_page(2)
@@ -51,7 +83,18 @@ class third(tk.Frame):
       for column, entry_box in self.entry_boxes.items():
           input_values[column] = entry_box.get()
       return input_values
-
+  def check_training_status(self, pred_instance):
+    if not pred_instance.training_done:
+        self.after(100, self.check_training_status, pred_instance)  # Check again in 100ms
+    else:
+        self.alert_label.config(text="Training Finished!")
+        self.button_done = ctk.CTkButton(master=self.alert_window, text="Done", command=self.on_done_button_click, fg_color="green", text_color="black")
+        self.button_done.pack(padx=20, pady=20)
+  def on_done_button_click(self):
+    self.button_done.destroy()
+    self.alert_window.destroy()
+    self.alert_window.grab_release()
+    self.app.show_page(4)
   def __init__(self, parent, app,selected_columns=None):
     tk.Frame.__init__(self, parent)
     self.app = app

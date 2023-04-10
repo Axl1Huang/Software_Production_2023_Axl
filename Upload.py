@@ -28,7 +28,7 @@ class second(tk.Frame):
     if self.drag_and_drop_widget.path or self.file_browser.get_selected_file():
         self.app.show_page(3)
     else:
-        messagebox.showerror("Error", "Please select a file from the File Browser Widget.")
+        messagebox.showerror("Error", "Please Drag a csv file or selected trained model.")
   def back(self):
     self.app.show_page(1)
   def __init__(self, parent, app):
