@@ -1,101 +1,102 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox
 import customtkinter as ctk
 from tkinterdnd2 import TkinterDnD
 from Start_page import first
 from Upload import second
 from Enter import third
 from Result import forth
+from prediction import prediction
+import os, joblib, time
+
 
 class App(tk.Tk):
 
-  ################
-  # APP SETTINGS #
-  ################
+    ################
+    # APP SETTINGS #
+    ################
 
-  name = "Hosue_prediction_by_HTOFS.Oy"                      # Name of the app
-  width = 1024                             # Width of the app window
-  height = 768                             # Height of the app window
-  pages = [ first,second,third,forth]           # Pages of the app
-  initial_page = 1                          # Initial page to show, from 1 to upwards
+    name = "House_prediction_by_HTOFS.Oy"
+    width = 1024
+    height = 768
+    pages = [first, second, third, forth]
+    initial_page = 1
 
-  # Custom styles for the app
-  styles = {
-    "LARGEFONT": ("Verdana", 35),
-    "MIDDLEFONT": ("Verdana", 25),
-    "NORMALFONT": ("Verdana", 15),
-  }
+    styles = {
+        "LARGEFONT": ("Verdana", 35),
+        "MIDDLEFONT": ("Verdana", 25),
+        "NORMALFONT": ("Verdana", 15),
+    }
 
-  ###################
-  # STATE VARIABLES #
-  ###################
+    ######################
+    # INITIALIZE THE APP #
+    ######################
+    def __init__(self, *args, **kwargs):
+        TkinterDnD.Tk.__init__(self, *args, **kwargs)
 
-  # Global selected option example
-  selectedFilePath = ""
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
 
-  #############
-  # FUNCTIONS #
-  #############
-  # def csv_file_check_and_call_thrid_page(self, file_path, selected_columns):
-  #     self.selectedFilePath = file_path
-  #     self.selectedColumns = selected_columns
-  #     print(f"CSV file uploaded: {file_path}")
-  #     print(selected_columns)
+        self.geometry(f"{self.width}x{self.height}")
+        self.title(self.name)
+        self.resizable(False, False)
+        ctk.set_appearance_mode("system")
+        ctk.set_default_color_theme("blue")
+
+        self.frames = {}
+        self.shared_data = {
+            "selected_columns": None,
+            "uploaded_file_path": None,
+            "model_path": None
+        }
+        self.prediction_instance = prediction(self)
+        i: int = 1
+        for F in self.pages:
+            frame = F(container, self)
+            self.frames[i] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+            i = i + 1
+
+        # self.prediction_instance = prediction(self)
+
+        self.show_page(self.initial_page)
+
+    #############
+    # FUNCTIONS #
+    #############
+
+    def show_page(self, page_number: int):
+        frame = self.frames.get(page_number)
+        if isinstance(frame, (second, third)):
+            frame.prediction_instance = self.prediction_instance
+        frame.tkraise()
+
+    def get_page(self, page_number: int):
+        return self.frames.get(page_number)
+
+    def save_model(self):
+        if hasattr(self, "prediction_instance") and self.prediction_instance.training_done:
+            model = self.prediction_instance.model
+            saved_models_folder = "src/saved_model"
+            if not os.path.exists(saved_models_folder):
+                os.makedirs(saved_models_folder)
+
+            # Generate a unique file name based on timestamp
+            timestamp = int(time.time())
+            model_file_name = f"trained_model_{timestamp}.pkl"
+
+            model_file_path = os.path.join(saved_models_folder, model_file_name)
+            joblib.dump(model, model_file_path)
+            messagebox.showinfo("Success", f"Model saved successfully at {model_file_path}")
+        else:
+            messagebox.showerror("Error", "There is no trained model available to save.")
+
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
 
 
 
-  # Show a certain page, from 1 to upwards
-  def show_page(self, page_number : int):
-    self.frames.get(page_number).tkraise()
-  
-  # Get a certain page, from 1 to upwards
-  def get_page(self, page_number : int):
-    return self.frames.get(page_number)
-
-  ######################
-  # INITIALIZE THE APP #
-  ######################
-  def __init__(self, *args, **kwargs):
-    TkinterDnD.Tk.__init__(self, *args, **kwargs)
-    
-    # creating a container
-    container = tk.Frame(self) 
-    # container.config(bg="white")
-    container.pack(side = "top", fill = "both", expand = True)
-    container.grid_rowconfigure(0, weight = 1)
-    container.grid_columnconfigure(0, weight = 1)
-    self.geometry(f"{self.width}x{self.height}")
-    self.title(self.name)
-    self.resizable(False, False)
-
-    # Theme settings for the app
-    # https://github.com/TomSchimansky/CustomTkinter/wiki/Themes
-    ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
-    ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
-    # Create all the pages
-    self.frames = {}
-    i : int = 1
-    # for F in self.pages:
-    #     if F == second:
-    #       frame = F(container, self, app=self)
-    #     elif F == third:
-    #       frame = F(container, self, third.select_from_user)
-    #     else:
-    #       frame = F(container, self)
-    #     self.frames[i] = frame
-    #     frame.grid(row = 0, column = 0, sticky ="nsew")
-    #     i = i + 1
-    for F in self.pages:
-      if F == second:
-          frame = F(container, app=self)
-      elif F == third:
-          frame = F(container, self, third.select_from_user)
-      else:
-          frame = F(container, self)
-      self.frames[i] = frame
-      frame.grid(row=0, column=0, sticky="nsew")
-      i = i + 1
-
-    # Initial page to show
-    self.show_page(self.initial_page)
