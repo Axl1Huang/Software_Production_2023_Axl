@@ -66,7 +66,7 @@ class FileBrowserWidget(tk.Frame):
 
             # Get the input columns from the loaded model
             model_input_columns = self.prediction_instance.input_columns
-
+            print(f"Setting selected_columns to {model_input_columns}")
             # Pass the input columns to the third page and create entry boxes
             enter_page = self.parent.get_page(3)  # Get the third page instance
             enter_page.selected_columns = model_input_columns  # Pass the selected_columns to the third page
@@ -92,3 +92,6 @@ class FileBrowserWidget(tk.Frame):
             column_name = self.treeview.item(item)["text"]
             selected_columns.append(column_name)
         return selected_columns
+    def reset(self):
+        self.selected_file = None
+        self.populate_treeview()

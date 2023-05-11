@@ -7,15 +7,15 @@ from tkinter import ttk
 
 class third(tk.Frame):
     def configure_shared_data(self, shared_data):
-        self.user_select_column = shared_data["selected_columns",[]]
-        print("接收到了:",self.user_select_column )
-        self.create_entry_boxes()
-
+        self.user_select_column = shared_data.get("selected_columns", [])
+        if self.user_select_column:
+            self.create_entry_boxes()
     def __init__(self, parent, app):
         tk.Frame.__init__(self, parent)
         self.app = app
         self.entry_boxes = {}
         self.user_select_column = self.app.shared_data["selected_columns"]
+        print(self.app.shared_data)
         LARGEFONT = app.styles.get("LARGEFONT")
 
         self.labelTitle = ctk.CTkLabel(master=self, text="Enter Information", font=LARGEFONT)
@@ -34,6 +34,7 @@ class third(tk.Frame):
 
     def back(self):
         self.reset_page()
+        self.app.reset_page(2)
         self.app.show_page(2)
 
     def reset_page(self):

@@ -16,7 +16,9 @@ class DragAndDropWidget(tk.Frame):
         self.app = app
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self.on_drop)
-
+    def reset(self):
+        self.path = None
+        self.drop_text.config(text="Drop CSV file here")
     def on_drop(self, event):
         data = event.data.strip().split("\n")
         print(f"Data received: {data}")
@@ -46,6 +48,7 @@ class DragAndDropWidget(tk.Frame):
                 if selected_columns:  # Check if selected_columns is not empty
                     print(f"Selected columns: {selected_columns}")
                     self.send_selected_columns_to_third_page(selected_columns)
+                    messagebox.showinfo("Success", "You have successfully selected columns.")
                 else:
                     messagebox.showerror("Nothing selected", "You have to select content to continue, otherwise there is no entry box in the next page.")
             else:
@@ -56,6 +59,7 @@ class DragAndDropWidget(tk.Frame):
             messagebox.showerror("Error", f"An error occurred while reading the file: {e}")
 
     def send_selected_columns_to_third_page(self, selected_columns):
+        print(f"Setting selected_columns to {selected_columns}")
         self.app.shared_data["selected_columns"] = selected_columns
 class ColumnSelectionDialog(simpledialog.Dialog):
     def __init__(self, parent, columns):
@@ -93,7 +97,6 @@ class ColumnSelectionDialog(simpledialog.Dialog):
     def apply(self):
         selected_indices = self.listbox.curselection()
         self.result = [self.columns[i] for i in selected_indices]
-
 def main():
     root = TkinterDnD.Tk()
     root.title("Drag and Drop CSV")

@@ -71,11 +71,13 @@ class App(tk.Tk):
         frame = self.frames.get(page_number)
         if isinstance(frame, (second, third)):
             frame.prediction_instance = self.prediction_instance
+            frame.configure_shared_data(self.shared_data)
         frame.tkraise()
 
     def get_page(self, page_number: int):
         return self.frames.get(page_number)
-
+    def reset_page(self, page_number):
+        self.frames[page_number].reset()
     def save_model(self):
         if hasattr(self, "prediction_instance") and self.prediction_instance.training_done:
             model = self.prediction_instance.model
