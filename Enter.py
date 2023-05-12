@@ -6,6 +6,10 @@ from tkinter import ttk
 
 
 class third(tk.Frame):
+    label_upload_Area:ctk.CTkLabel = None
+    label_Enter_information:ctk.CTkLabel = None
+    label_Predicted_Price_Show:ctk.CTkLabel = None
+    labelTitle: ctk.CTkLabel = None
     def configure_shared_data(self, shared_data):
         self.user_select_column = shared_data.get("selected_columns", [])
         if self.user_select_column:
@@ -17,7 +21,7 @@ class third(tk.Frame):
         self.user_select_column = self.app.shared_data["selected_columns"]
         print(self.app.shared_data)
         LARGEFONT = app.styles.get("LARGEFONT")
-
+        NORMALFONT = app.styles.get("NORMALFONT")
         self.labelTitle = ctk.CTkLabel(master=self, text="Enter Information", font=LARGEFONT)
         self.labelTitle.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
@@ -28,6 +32,15 @@ class third(tk.Frame):
         self.ButtonPredcition = ctk.CTkButton(master=self, text="Star Prediction", command=lambda: self.proceed(),
                                               fg_color="green", text_color="black")
         self.ButtonPredcition.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+        self.label_upload_Area = ctk.CTkLabel(master=self, text = "Upload Area", font = NORMALFONT)
+        self.label_upload_Area.place(relx=0.2, rely=0.2, anchor=tk.CENTER)
+
+        self.label_Enter_information = ctk.CTkLabel(master=self, text = "Enter Information", font = NORMALFONT)
+        self.label_Enter_information.place(relx=0.2, rely=0.4, anchor=tk.CENTER)
+
+        self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text="Predicted Price Show", font=NORMALFONT)
+        self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
+
 
         if self.user_select_column:
             self.create_entry_boxes()

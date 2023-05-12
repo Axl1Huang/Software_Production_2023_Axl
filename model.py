@@ -4,14 +4,13 @@ from tkinter import ttk
 from tkinter import messagebox
 
 class FileBrowserWidget(tk.Frame):
-    def __init__(self, parent, path, prediction_instance, *args, **kwargs):
+    def __init__(self, parent, path, prediction_instance,app,*args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-
+        self.app = app
         self.path = path
         self.selected_file = None
         self.parent = parent
         self.prediction_instance = prediction_instance
-
         # Create a treeview with 3 columns
         self.treeview = ttk.Treeview(self, columns=("File", "Delete"), show="headings", selectmode="browse")
         self.treeview.heading("File", text="File")
@@ -60,17 +59,40 @@ class FileBrowserWidget(tk.Frame):
             self.on_file_select()
 
     def load_selected_model(self):
-        if self.selected_file is not None:
-            model_path = os.path.join(self.path, self.selected_file)
-            self.prediction_instance.load_model(model_path)  # Load the selected model
+        try:
+            print("load_selected_model started")
+            print(f"load_selected_model called with self.selected_file={self.selected_file}")
+            if self.selected_file is not None:
+                model_path = os.path.join(self.path, self.selected_file)
+                # Load the selected model and get the model data
+                model_data = self.prediction_instance.load_model(model_path)  
+                if model_data:
+                    # Get the input columns from the loaded model
+                    model_input_columns = model_data.get('selected_columns')
+                    print(f"model_input_columns={model_input_columns}")
+                    if model_input_columns:
+                        print(f"Setting selected_columns to {model_input_columns}")
+                        # Store the selected_columns in the shared_data
+                        self.app.shared_data["selected_columns"] = model_input_columns
 
-            # Get the input columns from the loaded model
-            model_input_columns = self.prediction_instance.input_columns
-            print(f"Setting selected_columns to {model_input_columns}")
-            # Pass the input columns to the third page and create entry boxes
-            enter_page = self.parent.get_page(3)  # Get the third page instance
-            enter_page.selected_columns = model_input_columns  # Pass the selected_columns to the third page
-            enter_page.create_entry_boxes()  # Create the entry boxes
+                    # Get the uploaded_file_path from the loaded model
+                    uploaded_file_path = model_data.get('uploaded_file_path')
+                    if uploaded_file_path:
+                        print(f"Setting uploaded_file_path to {uploaded_file_path}")
+                        # Store the uploaded_file_path in the shared_data
+                        self.app.shared_data["uploaded_file_path"] = uploaded_file_path
+                else:
+                    print("model_data is None or empty")
+                return model_data
+            else:
+                return None
+        except Exception as e:
+            print(f"Exception occurred in load_selected_model: {e}")
+        finally:
+            print("load_selected_model ended")
+
+
+
 
     def delete_file(self, file):
         file_path = os.path.join(self.path, file)

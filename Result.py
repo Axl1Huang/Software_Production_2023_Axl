@@ -60,6 +60,8 @@ class forth(tk.Frame):
   def save_model(self):
     if self.prediction_instance and self.prediction_instance.training_done:
         model = self.prediction_instance.model
+        selected_columns = self.app.shared_data['selected_columns']  # Directly access 'selected_columns' from shared_data
+        uploaded_file_path = self.app.shared_data.get("uploaded_file_path")
         saved_models_folder = "src/saved_model"
         if not os.path.exists(saved_models_folder):
             os.makedirs(saved_models_folder)
@@ -67,10 +69,19 @@ class forth(tk.Frame):
         model_file_name = f"trained_model_{timestamp}.pkl"
         
         model_file_path = os.path.join(saved_models_folder, model_file_name)
-        joblib.dump(model, model_file_path)
+        
+        model_data = {
+            'model': model,
+            'selected_columns': selected_columns,
+            'uploaded_file_path':uploaded_file_path
+        }
+        
+        joblib.dump(model_data, model_file_path)
         messagebox.showinfo("Success", f"Model saved successfully at {model_file_path}")
+        print(self.app.shared_data)
     else:
         messagebox.showerror("Error", "There is no trained model available to save.")
+
   
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)

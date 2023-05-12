@@ -27,13 +27,17 @@ class second(tk.Frame):
   # FUNCTIONS #
   #############
   def on_confirm_button_click(self):
-      model_file_path = self.file_browser.get_selected_file_path()
-      if model_file_path is None:
-          messagebox.showwarning(title="Warning", message="Please choose a model file before proceeding.")
-      else:
-          # Save the selected model path to the App class
-          self.app.shared_data["selected_model_path"] = model_file_path
-          messagebox.showinfo("Success", "You have successfully selected a pre-trained model.")
+    model_file_path = self.file_browser.get_selected_file_path()
+    if model_file_path is None:
+        messagebox.showwarning(title="Warning", message="Please choose a model file before proceeding.")
+    else:
+        # Save the selected model path to the App class
+        self.app.shared_data["selected_model_path"] = model_file_path
+        # Get the input columns from the selected model
+        model_input_columns = self.file_browser.load_selected_model()
+        # Save the input columns to the App class
+        self.app.shared_data["selected_columns"] = model_input_columns
+        messagebox.showinfo("Success", "You have successfully selected a pre-trained model.")
   def reset(self):
         self.drag_and_drop_widget.reset()
         self.file_browser.reset()
@@ -57,12 +61,14 @@ class second(tk.Frame):
 
       if model_file_path:
           self.app.shared_data["selected_model_path"] = model_file_path
-          # read the columns from the saved model file and update 'selected_columns'
-          self.app.shared_data["selected_columns"] = self.file_browser.get_selected_columns()
+          # Load the model and get the columns from the model file, then update 'selected_columns'
+          model_input_columns = self.file_browser.load_selected_model()
+          if model_input_columns:
+              self.app.shared_data["selected_columns"] = model_input_columns
           print(self.app.shared_data["selected_columns"])
       print(self.app.shared_data)
       self.app.show_page(3)
-      
+
   def back(self):
       self.app.show_page(1)
   def configure_shared_data(self, shared_data):
@@ -72,7 +78,7 @@ class second(tk.Frame):
   def __init__(self, parent, app):
       tk.Frame.__init__(self, parent)
       self.app = app
-      self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance)
+      self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance,self.app)
       NORMALFONT = app.styles.get("NORMALFONT")
       LARGEFONT = app.styles.get("LARGEFONT")
 
@@ -102,7 +108,7 @@ class second(tk.Frame):
       self.label_Saved = ctk.CTkLabel(master=self, text="Saved Model", font=NORMALFONT)
       self.label_Saved.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
-      self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance)
+      self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance,self.app)
       self.file_browser.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
       # Add the Confirm button after creating the FileBrowserWidget instance
