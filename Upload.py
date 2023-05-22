@@ -10,6 +10,7 @@ from DDbox import DragAndDropWidget as dd
 
 class second(tk.Frame):
   
+  
   ##############
   # COMPONENTS #
   ##############
@@ -77,6 +78,7 @@ class second(tk.Frame):
             self.create_entry_boxes()
   def __init__(self, parent, app):
       tk.Frame.__init__(self, parent)
+      self.configure(bg="white")
       self.app = app
       self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance,self.app)
       NORMALFONT = app.styles.get("NORMALFONT")
@@ -85,27 +87,40 @@ class second(tk.Frame):
       self.labelTitle = ctk.CTkLabel(master=self, text="Upload Area", font=LARGEFONT)
       self.labelTitle.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
-      self.label_upload_Area = ctk.CTkLabel(master=self, text="Upload Area", font=NORMALFONT)
+      pil_image = Image.open("src\img\icons8-home-24.png")
+      ctk_image = ctk.CTkImage(pil_image)
+      self.label_upload_Area = ctk.CTkLabel(master=self, text="Home Page", font=NORMALFONT, compound="left", image=ctk_image)
       self.label_upload_Area.place(relx=0.2, rely=0.2, anchor=tk.CENTER)
+      
+      pil_image = Image.open("src\img\icons8-upload-24.png")
+      ctk_image = ctk.CTkImage(pil_image)
+      self.label_upload_Area = ctk.CTkLabel(master=self, text="Upload Area", font=NORMALFONT, compound="left", image=ctk_image)
+      self.label_upload_Area.place(relx=0.2, rely=0.33, anchor=tk.CENTER)
 
-      self.label_Enter_information = ctk.CTkLabel(master=self, text="Enter Information", font=NORMALFONT)
-      self.label_Enter_information.place(relx=0.2, rely=0.4, anchor=tk.CENTER)
+      pil_image = Image.open("src\img\icons8-enter-24 (1).png")
+      ctk_image = ctk.CTkImage(pil_image)
+      self.label_Enter_information = ctk.CTkLabel(master=self, text="Enter Information", font=NORMALFONT, compound="left", image=ctk_image)
+      self.label_Enter_information.place(relx=0.22, rely=0.46, anchor=tk.CENTER)
+      
+      pil_image = Image.open("src\img\icons8-eye-32.png")
+      ctk_image = ctk.CTkImage(pil_image)
+      self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text="Predicted Price Show", font=NORMALFONT, compound="left", image=ctk_image)
+      self.label_Predicted_Price_Show.place(relx=0.23, rely=0.59, anchor=tk.CENTER)
+      
+      pil_image = Image.open("src\img\icons8-back-24.png")
+      ctk_image = ctk.CTkImage(pil_image)
+      self.ButtonBack = ctk.CTkButton(master=self, text="Back", command= lambda : self.back(), fg_color="light yellow", text_color="black", compound="left", image=ctk_image)
+      self.ButtonBack.place(relx=0.2, rely=0.75, anchor=tk.CENTER)
+      
+      self.ButtonUpload = ctk.CTkButton(master=self, text="Upload", command=lambda: self.proceed(), fg_color="#ECFCE5", text_color="black")
+      self.ButtonUpload.place(relx=0.8, rely=0.75, anchor=tk.CENTER)
 
-      self.ButtonBack = ctk.CTkButton(master=self, text="Back", command= lambda : self.back(), fg_color="yellow", text_color="black")
-      self.ButtonBack.place(relx=0.2, rely=0.8, anchor=tk.CENTER)
-
-      self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text="Predicted Price Show", font=NORMALFONT)
-      self.label_Predicted_Price_Show.place(relx=0.2, rely=0.6, anchor=tk.CENTER)
-
-
-      self.ButtonUpload = ctk.CTkButton(master=self, text="Confirm", command=lambda: self.proceed(), fg_color="green", text_color="black")
-      self.ButtonUpload.place(relx=0.8, rely=0.8, anchor=tk.CENTER)
-
-      ### Define Drag and Drop box
-      self.drag_and_drop_widget = DragAndDropWidget(self, app=app)
+      ## Define Drag and Drop box
+      self.drag_and_drop_widget = DragAndDropWidget(self, app=app, borderwidth=10, relief=tk.RAISED)
       self.drag_and_drop_widget.place(relx=0.8, rely=0.5, anchor=tk.CENTER)
 
-      self.label_Saved = ctk.CTkLabel(master=self, text="Saved Model", font=NORMALFONT)
+
+      self.label_Saved = ctk.CTkLabel(master=self, text="Trained Model", font=NORMALFONT)
       self.label_Saved.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
       self.file_browser = FileBrowserWidget(self, self.saved_path, self.app.prediction_instance,self.app)

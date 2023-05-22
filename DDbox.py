@@ -5,20 +5,32 @@ import os
 from tkinterdnd2 import DND_FILES, TkinterDnD
 import tkinter.messagebox as messagebox
 import pandas as pd
+from tkinter import Tk, Label, Canvas, PhotoImage
+from PIL import Image
+import customtkinter as ctk
+from PIL import ImageTk, Image
 
 class DragAndDropWidget(tk.Frame):
     def __init__(self, parent, app, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        self.configure(bg="blue", width=300, height=300)
-        self.drop_text = tk.Label(self, text="Drop CSV file here", bg="blue", fg="white")
-        self.drop_text.place(x=100, y=140)
+        self.configure(bg="#91E9FD", width=300, height=300)
+        self.drop_text = tk.Label(self, text="Drop CSV File Here", bg="#91E9FD", fg="white", font = ("Arial", 15))
+        self.drop_text.place(x=55, y=30)
+
+        # self.canvas = Canvas(self, width=180, height=180, bg="#C2EFFA", highlightthickness=0)
+        # self.canvas.place(x=50, y=60)
+
+        # small_blue_box = tk.Frame(self, bg="#C2EFFA", width=120, height=120)
+        # small_blue_box.place(relx=0.52, rely=0.55, anchor=tk.CENTER)
+
+
         self.path = None
         self.app = app
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self.on_drop)
     def reset(self):
         self.path = None
-        self.drop_text.config(text="Drop CSV file here")
+        self.drop_text.config(text="Drop CSV File Here")
     def on_drop(self, event):
         data = event.data.strip().split("\n")
         print(f"Data received: {data}")
