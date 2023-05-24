@@ -29,9 +29,11 @@ class prediction():
             return
         self.test_data = pd.DataFrame([self.user_input])
         self.train_data = self.app.shared_data.get('selected_columns')
+        print(self.test_data,self.train_data)
 
     def training(self):
-        print(f"Before training, selected_columns={self.app.shared_data.get('selected_columns')}")
+        self.training_done = False  # Reset training_done at the beginning of training
+
         if not self.app.shared_data.get("uploaded_file_path"):
             tk.messagebox.showerror(title="Error", message="Please upload a CSV file before starting the training.")
             return
@@ -47,28 +49,33 @@ class prediction():
 
         X = data.drop(columns=["price"])
         y = data["price"]
+
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-        
+
         self.model = RandomForestRegressor(n_estimators=200, max_depth=30, min_samples_split=10, min_samples_leaf=2, max_features=0.9, max_samples=0.9, bootstrap=True, random_state=52)
         self.model.fit(X_train, y_train)
 
         # Get model accuracy using r2_score
         y_pred = self.model.predict(X_test)
         self.model_acc = r2_score(y_test, y_pred)
-
+        print(self.model_acc)
         # Set user_column to the selected columns
         self.user_column = selected_columns
 
         self.get_test_and_train_data()
         print(f"test_data: {self.test_data}")
+
         if self.test_data.empty:
             print("Test data is empty. Skipping prediction.")
             return
+
         user_pred = self.model.predict(self.test_data)
         self.user_result = user_pred[0] if len(user_pred) > 0 else None
+
+        # At the end of training:
         self.training_done = True
         if self.forth_instance:
-            self.forth_instance.update_labels()
+            self.forth_instance.after(0, self.forth_instance.update_labels)
 
     # def save_model(self, file_path='trained_model.joblib'):
     #     print(f"Before saving model, selected_columns={self.app.shared_data.get('selected_columns')}")  # Add this line

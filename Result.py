@@ -30,36 +30,27 @@ class forth(tk.Frame):
   # FUNCTIONS #
   #############
   def update_labels(self):
-    if self.prediction_instance.training_done:
-        if self.prediction_instance.user_result is not None:
-            # self.label_result.configure(text=f"The prediction of price is: {self.prediction_instance.user_result:.2f}")
-            result_text = f"{self.prediction_instance.user_result:.2f}"
-            self.label_result.configure(text=result_text, font = ("Courier New", 20))
-        else:
-            self.label_result.configure(text="The prediction of price based on your input is not available.")
+        if self.prediction_instance.training_done:
+            if self.prediction_instance.user_result is not None:
+                result_text = f"{self.prediction_instance.user_result:.2f}"
+                self.label_result.configure(text=result_text, font = ("Courier New", 20))
+            else:
+                self.label_result.configure(text="The prediction of price based on your input is not available.")
         
-        if self.prediction_instance.model_acc is not None:
-            #self.label_Model_accuracy.configure(text=f"{self.prediction_instance.model_acc:.2f}",font = ("Courier New", 20))
-            self.label_Model_accuracy.configure(text=f"{self.prediction_instance.model_acc*100:.0f}%", font=("Courier New", 16))
-
-        else:
-            self.label_Model_accuracy.configure(text="The accuracy of the model is not available.")
+            if self.prediction_instance.model_acc is not None:
+                self.label_Model_accuracy.configure(text=f"{self.prediction_instance.model_acc*100:.0f}%", font=("Courier New", 16))
+            else:
+                self.label_Model_accuracy.configure(text="The accuracy of the model is not available.")
         
-        if self.prediction_instance.user_column is not None:
-            self.label_user_column.configure(text=f"The columns you selected are:\n{self.prediction_instance.user_column}")
+            if self.prediction_instance.user_column is not None:
+                self.label_user_column.configure(text=f"The columns you selected are:\n{self.prediction_instance.user_column}")
+            else:
+                self.label_user_column.configure(text="No columns selected for training.")
         else:
-            self.label_user_column.configure(text="No columns selected for training.")
-    else:
-        self.after(1000, self.update_labels_after_training)
-
-
-  def update_labels_after_training(self):
-    if self.prediction_instance.training_done:
-        self.update_labels()
-    else:
-        self.after(1000, self.update_labels_after_training)
+            self.after(1000, self.update_labels)
 
   def back(self):
+    self.app.reset_page(4)
     self.app.show_page(3)
 
   def save_model(self):
@@ -86,8 +77,11 @@ class forth(tk.Frame):
         print(self.app.shared_data)
     else:
         messagebox.showerror("Error", "There is no trained model available to save.")
-
-  
+  def reset(self):
+        self.prediction_instance.model_acc = None
+        self.prediction_instance.user_column = None
+        self.prediction_instance.user_result = None
+        self.prediction_instance.training_done = False  
   def __init__(self, parent, app):
     tk.Frame.__init__(self, parent)
     self.configure(bg="white")
@@ -152,4 +146,7 @@ class forth(tk.Frame):
     self.label_user_column = ctk.CTkLabel(master=self, font = NORMALFONT)  
     self.label_user_column.place(relx=0.64, rely=0.71, anchor=tk.CENTER)
 
-    self.update_labels_after_training() 
+    self.prediction_instance = self.app.prediction_instance
+    self.prediction_instance.forth_instance = self
+
+    self.update_labels()

@@ -45,6 +45,7 @@ class second(tk.Frame):
         self.app.shared_data["selected_columns"] = []
         self.app.shared_data["selected_model_path"] = None
         self.app.shared_data["uploaded_file_path"] = None
+        print("current selected_columns:",self.app.shared_data["selected_columns"])
   def proceed(self):
       uploaded_file_path = self.drag_and_drop_widget.path
       model_file_path = self.file_browser.get_selected_file_path()

@@ -13,6 +13,7 @@ class third(tk.Frame):
     labelTitle: ctk.CTkLabel = None
     def configure_shared_data(self, shared_data):
         self.user_select_column = shared_data.get("selected_columns", [])
+        print("now columns:",self.user_select_column)
         if self.user_select_column:
             self.create_entry_boxes()
     def __init__(self, parent, app):
@@ -26,7 +27,6 @@ class third(tk.Frame):
         NORMALFONT = app.styles.get("NORMALFONT")
         self.labelTitle = ctk.CTkLabel(master=self, text="Enter Information", font=LARGEFONT)
         self.labelTitle.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
-
         pil_image = Image.open("src\img\icons8-back-24.png")
         ctk_image = ctk.CTkImage(pil_image)
         self.ButtonBack = ctk.CTkButton(master=self, text="Back", command= lambda : self.back(), fg_color="light yellow", text_color="black", compound="left", image=ctk_image)
@@ -56,7 +56,6 @@ class third(tk.Frame):
         self.label_Predicted_Price_Show = ctk.CTkLabel(master=self, text="Predicted Price Show", font=NORMALFONT, compound="left", image=ctk_image)
         self.label_Predicted_Price_Show.place(relx=0.23, rely=0.59, anchor=tk.CENTER)
 
-
         if self.user_select_column:
             self.create_entry_boxes()
 
@@ -68,14 +67,18 @@ class third(tk.Frame):
     def reset_page(self):
         self.remove_entry_boxes()
         self.user_select_column = []
+        self.app.shared_data["selected_columns"] = None
 
     def remove_entry_boxes(self):
         for column, entry_box in self.entry_boxes.items():
+            entry_box.delete(0, tk.END)
             entry_box.destroy()
         self.entry_boxes.clear()
+        print("existing columns", self.user_select_column)
 
     def create_entry_boxes(self):
         selected_columns = self.user_select_column
+        self.remove_entry_boxes() 
         self.entry_boxes = {}
         entry_box_specs = {
             "zip_code": (0.5, 0.3),
@@ -113,6 +116,7 @@ class third(tk.Frame):
         input_values = {}
         for column, entry_box in self.entry_boxes.items():
             input_values[column] = entry_box.get()
+            print(input_values)
         return input_values
 
     def validate_input_values(self, input_values):
@@ -127,9 +131,6 @@ class third(tk.Frame):
     def show_error_dialog(self, message):
         error_dialog = tk.messagebox.showerror("Error", message)
 
-    def clear_entry_boxes(self):
-        for column, entry_box in self.entry_boxes.items():
-            entry_box.delete(0, tk.END)
     def show_alert_window(self):
         self.alert_window = tk.Toplevel(self)
         self.alert_window.title("Training in progress")
