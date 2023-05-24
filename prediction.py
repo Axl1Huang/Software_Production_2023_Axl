@@ -52,7 +52,7 @@ class prediction():
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-        self.model = RandomForestRegressor(n_estimators=200, max_depth=30, min_samples_split=10, min_samples_leaf=2, max_features=0.9, max_samples=0.9, bootstrap=True, random_state=52)
+        self.model = RandomForestRegressor()
         self.model.fit(X_train, y_train)
 
         # Get model accuracy using r2_score
