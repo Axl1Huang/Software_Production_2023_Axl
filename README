@@ -1,2 +1,81 @@
-This app is about create a application accpet user upload a csv file to do the prediction
-  
+Project Title:
+
+House Price Prediction APP by High Tech Old Factory Street
+
+Getting Started:
+
+This is a GUI application for predicting house prices based on a given dataset. The application allows users to upload a CSV file, select columns for training, and make predictions using a trained model.
+
+Features:
+
+- Drag and drop CSV file upload
+- Column selection for training
+- Model training and prediction
+- Saving trained models
+
+Installation:
+
+1. Clone the repository:
+   git clone https://github.com/Axl1Huang/Software_Production_2023_Axl.git
+
+2. Navigate to the project directory:
+   cd house-prediction-app
+
+3. Run the application:
+   python main.py
+
+Usage:
+
+1. Start the application by running the "main.py" file.
+   The application window will open, showing the first page.
+
+2. Drag and drop a CSV file into the designated area on the second page.
+   Select the columns to use for training on this page. The "Price" column is mandatory for training. After selection, clicking the "Upload" button to upload the columns. The previously saved model list is displayed on the left side of the drag and drop area.
+
+3. On the third page, enter the value of the columns you have selected.
+   make a house prices prediction by clicking the "Start Prediction" button on the third page.
+
+4. Once the training is complete, you can see predicted prices and accuracy on forth page.
+   Optionally, you can save the trained model by clicking the "Save Model" button so that you can use this trained model next time.             
+
+Deployment:
+
+   Prepare your application for deployment by optimizing and configuring it for your deployment environment.
+
+   Transfer application files to the deployment environment. This can be done by uploading the files directly to the server or by cloning the application repository using a version control tool such as Git.
+
+   Install any additional dependencies or libraries required for the application in the deployment environment. This may require running a package manager such as pip to install.
+
+   Configure the deployment environment to run the application. This may include setting environment variables, etc. and ensuring that the appropriate permissions are set.
+
+   Start the application in the deployment environment. This can be done by running the appropriate command or file to start the application.
+
+   Test the deployed application to ensure that it functions correctly. This may involve submitting test input and verifying the output or response.
+
+Built With:
+
+   Python: the core programming language for developing applications. python provides a number of libraries and frameworks for data analysis, machine learning, and web development.
+
+   Tkinter: A standard Python GUI toolkit for building GUIs for applications. tkinter provides a set of widgets and functions for creating windows, buttons, tabs, and other GUI elements.
+
+   Pandas: A powerful data manipulation and analysis library for working with CSV data and performing data preprocessing tasks.
+
+   scikit-learn: A machine learning library in Python for training RandomForestRegressor models and making predictions.
+
+   joblib: A library for saving and loading trained machine learning models in pickle format.
+
+   tkinterdnd2: A Python library that extends Tkinter with drag-and-drop support, allowing users to easily upload CSV files by dragging and dropping them onto the application.
+
+   PIL: A library for working with images, including displaying the application's logo and other images in the GUI.
+
+Contributing:
+
+   Contributions are welcome! If you find any problems or have suggestions for improvement, please contact us.
+
+Authors:
+
+   Yizhan Huang, Muqun Yu
+
+Acknowledgments:
+
+We would like to thank OpenAI, python, scikit-learn, tkinter, Pandas, joblib, GitHub, and all the contributors and users who have supported the development of the House Prediction App. Your contributions, resources, and feedback have been invaluable in creating a successful and user-friendly application.
