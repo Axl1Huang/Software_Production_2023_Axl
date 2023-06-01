@@ -69,7 +69,8 @@ class forth(tk.Frame):
         model_data = {
             'model': model,
             'selected_columns': selected_columns,
-            'uploaded_file_path':uploaded_file_path
+            'uploaded_file_path':uploaded_file_path,
+            "target_column":self.app.shared_data["target_column"] 
         }
         
         joblib.dump(model_data, model_file_path)

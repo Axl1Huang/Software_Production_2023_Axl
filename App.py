@@ -49,7 +49,8 @@ class App(tk.Tk):
         self.shared_data = {
             "selected_columns": None,
             "uploaded_file_path": None,
-            "model_path": None
+            "model_path": None,
+            "target_column":None
         }
         self.prediction_instance = prediction(self)
         i: int = 1

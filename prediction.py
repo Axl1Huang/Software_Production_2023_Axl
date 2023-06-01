@@ -45,10 +45,10 @@ class prediction():
 
         # Add the selected columns from app.shared_data
         selected_columns = self.app.shared_data.get("selected_columns", [])
-        data = data[selected_columns]
-
-        X = data.drop(columns=["price"])
-        y = data["price"]
+        target_column = self.app.shared_data.get("target_column", "price") 
+        print(target_column)
+        X = data[selected_columns]
+        y = data[target_column]
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 

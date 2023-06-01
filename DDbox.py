@@ -17,13 +17,6 @@ class DragAndDropWidget(tk.Frame):
         self.drop_text = tk.Label(self, text="Drop CSV File Here", bg="#91E9FD", fg="white", font = ("Arial", 15))
         self.drop_text.place(x=55, y=30)
 
-        # self.canvas = Canvas(self, width=180, height=180, bg="#C2EFFA", highlightthickness=0)
-        # self.canvas.place(x=50, y=60)
-
-        # small_blue_box = tk.Frame(self, bg="#C2EFFA", width=120, height=120)
-        # small_blue_box.place(relx=0.52, rely=0.55, anchor=tk.CENTER)
-
-
         self.path = None
         self.app = app
         self.drop_target_register(DND_FILES)
@@ -49,20 +42,29 @@ class DragAndDropWidget(tk.Frame):
     def handle_file(self, file_path):
         print(f"Handling file: {file_path}")
         self.path = file_path
-        # Perform actions with the CSV file
         try:
             df = pd.read_csv(file_path, nrows=0)  # Read only the header row
             column_names = df.columns.tolist()
 
             if column_names:
-                column_selection_dialog = ColumnSelectionDialog(self.master, column_names)
-                selected_columns = column_selection_dialog.result
-                if selected_columns:  # Check if selected_columns is not empty
-                    print(f"Selected columns: {selected_columns}")
-                    self.send_selected_columns_to_third_page(selected_columns)
-                    messagebox.showinfo("Success", "You have successfully selected columns.")
+                target_column_dialog = TargetColumnSelectionDialog(self.master, column_names)
+                target_column = target_column_dialog.result
+
+                if target_column:  # Check if target_column is not None
+                    print(f"Target column: {target_column}")
+                    self.app.shared_data["target_column"] = target_column
+
+                    other_columns = [col for col in column_names if col != target_column]
+                    column_selection_dialog = ColumnSelectionDialog(self.master, other_columns)
+                    selected_columns = column_selection_dialog.result
+                    if selected_columns:  # Check if selected_columns is not empty
+                        print(f"Selected columns: {selected_columns}")
+                        self.app.shared_data["selected_columns"] = selected_columns
+                        messagebox.showinfo("Success", "You have successfully selected columns.")
+                    else:
+                        messagebox.showerror("Nothing selected", "You have to select at least one column to continue.")
                 else:
-                    messagebox.showerror("Nothing selected", "You have to select content to continue, otherwise there is no entry box in the next page.")
+                    messagebox.showerror("Nothing selected", "You have to select a target column to continue.")
             else:
                 messagebox.showerror("Invalid file", "The CSV file is empty or has no header.")
         except pd.errors.EmptyDataError:
@@ -70,17 +72,43 @@ class DragAndDropWidget(tk.Frame):
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred while reading the file: {e}")
 
-    def send_selected_columns_to_third_page(self, selected_columns):
-        print(f"Setting selected_columns to {selected_columns}")
-        self.app.shared_data["selected_columns"] = selected_columns
+class TargetColumnSelectionDialog(simpledialog.Dialog):
+    def __init__(self, parent, columns):
+        self.columns = columns
+        self.result = None
+        super().__init__(parent, title="Select Target Column")
+
+    def body(self, master):
+        tk.Label(master, text="Select the target column(price column):").pack(pady=10)
+
+        self.listbox = tk.Listbox(master, selectmode=tk.SINGLE, exportselection=0)
+        for column in self.columns:
+            self.listbox.insert(tk.END, column)
+        self.listbox.pack(padx=10, pady=5)
+
+        return self.listbox
+
+    def validate(self):
+        selected_indices = self.listbox.curselection()
+
+        if len(selected_indices) == 1:
+            return True
+        else:
+            messagebox.showwarning("No Selection", "Please select exactly one target column.")
+            return False
+
+    def apply(self):
+        selected_indices = self.listbox.curselection()
+        self.result = self.columns[selected_indices[0]]
+
 class ColumnSelectionDialog(simpledialog.Dialog):
     def __init__(self, parent, columns):
         self.columns = columns
         self.result = []
-        super().__init__(parent, title="Select a Column")
+        super().__init__(parent, title="Select Other Columns")
 
     def body(self, master):
-        tk.Label(master, text="Select a column to use:\nMention: Price column is mandatory to be selected for training").pack(pady=10)
+        tk.Label(master, text="Select other columns to use:").pack(pady=10)
 
         self.listbox = tk.Listbox(master, selectmode=tk.MULTIPLE, exportselection=0)
         for column in self.columns:
@@ -91,28 +119,22 @@ class ColumnSelectionDialog(simpledialog.Dialog):
 
     def validate(self):
         selected_indices = self.listbox.curselection()
-        selected_columns = [self.columns[i] for i in selected_indices]
 
         if len(selected_indices) >= 1:
-            if "price" not in selected_columns:
-                messagebox.showwarning("Price column missing", "Please ensure you select the 'Price' column.")
-                return False
-            elif len(selected_indices) == 1:
-                messagebox.showwarning("Training column missing", "Please ensure you select the two column.(price included)")
-                return False
-            else:
-                return True
+            return True
         else:
-            messagebox.showwarning("No Selection", "Please select at least two column from the training.(price included)")
+            messagebox.showwarning("No Selection", "Please select at least one column.")
             return False
 
     def apply(self):
         selected_indices = self.listbox.curselection()
         self.result = [self.columns[i] for i in selected_indices]
+
 def main():
     root = TkinterDnD.Tk()
     root.title("Drag and Drop CSV")
     root.geometry("400x400")
+    root.shared_data = {"uploaded_file_path": None, "selected_columns": None, "target_column": None}
 
     drag_and_drop_widget = DragAndDropWidget(root, app=root)
     drag_and_drop_widget.place(x=50, y=50)
