@@ -58,6 +58,8 @@ class forth(tk.Frame):
         model = self.prediction_instance.model
         selected_columns = self.app.shared_data['selected_columns']  # Directly access 'selected_columns' from shared_data
         uploaded_file_path = self.app.shared_data.get("uploaded_file_path")
+        target_column = self.app.shared_data["target_column"]
+        print(target_column)
         saved_models_folder = "src/saved_model"
         if not os.path.exists(saved_models_folder):
             os.makedirs(saved_models_folder)
@@ -70,7 +72,7 @@ class forth(tk.Frame):
             'model': model,
             'selected_columns': selected_columns,
             'uploaded_file_path':uploaded_file_path,
-            "target_column":self.app.shared_data["target_column"] 
+            "target_column":target_column
         }
         
         joblib.dump(model_data, model_file_path)

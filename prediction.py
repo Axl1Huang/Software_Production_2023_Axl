@@ -95,10 +95,18 @@ class prediction():
         if isinstance(loaded_model_data, dict) and 'model' in loaded_model_data and 'selected_columns' in loaded_model_data:
             self.model = loaded_model_data['model']
             self.input_columns = loaded_model_data['selected_columns']  # Update input_columns when loading the model
+
             # Update shared_data dictionary
             self.app.shared_data['selected_columns'] = self.input_columns  # Use input_columns instead of user_select_column
-            if 'uploaded_file_path' in loaded_model_data:  # Check if 'uploaded_file_path' exists in loaded_model_data
+            
+            # Check if 'uploaded_file_path' exists in loaded_model_data
+            if 'uploaded_file_path' in loaded_model_data:  
                 self.app.shared_data['uploaded_file_path'] = loaded_model_data['uploaded_file_path']  # Update the shared_data with 'uploaded_file_path'
+            
+            # Check if 'target_column' exists in loaded_model_data
+            if 'target_column' in loaded_model_data:
+                self.app.shared_data['target_column'] = loaded_model_data['target_column']  # Update the shared_data with 'target_column'
+
             print(f"After loading model, input_columns={self.input_columns}, shared_data[selected_columns]={self.app.shared_data.get('selected_columns')}")
         else:
             raise TypeError("The loaded model data should be a dictionary containing a 'model' and 'selected_columns' keys.")

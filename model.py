@@ -81,6 +81,14 @@ class FileBrowserWidget(tk.Frame):
                         print(f"Setting uploaded_file_path to {uploaded_file_path}")
                         # Store the uploaded_file_path in the shared_data
                         self.app.shared_data["uploaded_file_path"] = uploaded_file_path
+
+                    # Get the target_column from the loaded model
+                    target_column = model_data.get('target_column')
+                    if target_column:
+                        print(f"Setting target_column to {target_column}")
+                        # Store the target_column in the shared_data
+                        self.app.shared_data["target_column"] = target_column
+                        print("current target after selected by tree",self.app.shared_data["target_column"])
                 else:
                     print("model_data is None or empty")
                 return model_data
